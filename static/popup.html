@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>LinkedIn Plus+</title>
+    <meta charset="UTF-8" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+      rel="stylesheet"
+      integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
+      crossorigin="anonymous"
+    />
+
+    <style>
+      /* Modal Structure */
+    </style>
+    <link rel="stylesheet" href="toggle-button.css" />
+    <link rel="stylesheet" href="style.css" />
+    <script type="module" src="popup.js" defer></script>
+  </head>
+
+  <body>
+    <div class="modal-header">
+      <img class="logo-icon" src="icons/icon-48.png" />
+      <h1 class="logo">Bold It</h1>
+    </div>
+    <div class="modal-content">
+      <div class="toggle r">
+        <input id="power-button" type="checkbox" class="checkbox" checked="false" />
+        <div class="knobs"></div>
+        <div class="layer"></div>
+      </div>
+      <div class="slider-wrapper">
+        <input
+          type="range"
+          step="100"
+          max="800"
+          min="100"
+          name="additional-boldness"
+          id="additional-boldness"
+        /><label for="additional-boldness"></label>
+      </div>
+      <br />
+    </div>
+    <div class="modal-icons">
+      <div class="icon">
+        <a href="mailto:yardenporat@gmail.com" target="_blank">
+          <i class="fa fa-envelope" style="color: #4285f4"></i>
+        </a>
+      </div>
+      <div class="icon">
+        <a href="https://www.linkedin.com/in/yarden-porat/" target="_blank">
+          <i class="fa fa-linkedin" style="color: #4285f4"></i>
+        </a>
+      </div>
+      <div class="icon">
+        <a href="https://www.github.com/yardenporat" target="_blank">
+          <i class="fa fa-github" style="color: #4285f4"></i>
+        </a>
+      </div>
+    </div>
+  </body>
+</html>

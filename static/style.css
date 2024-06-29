@@ -1,0 +1,57 @@
+html,
+body {
+  --padding: 20px;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+  margin: 0;
+  padding: 0;
+}
+
+.modal-header {
+  padding: var(--padding) var(--padding) 0 var(--padding);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.modal-content {
+  padding: 0 var(--padding);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+
+  .toggle {
+    margin: 0 auto;
+  }
+
+  .slider-wrapper {
+    display: flex;
+    justify-content: center;
+  }
+}
+
+.modal-icons {
+  border-top: 0.5px solid #dadada;
+  display: flex;
+  align-items: center;
+  padding: var(--padding) 0;
+
+  .icon {
+    opacity: 1;
+    transition: opacity 0.2s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 90px;
+
+    &:hover {
+      opacity: 0.4;
+    }
+
+    .fa {
+      font-size: 40px;
+      color: #2f5876;
+    }
+  }
+}
