@@ -76,19 +76,16 @@ function queryTextContainingElements() {
 }
 
 function boldItWithStoredBoldness() {
-    boldIt(storage.get()?.additionalBoldness ?? DEFAULT_STORAGE.additionalBoldness);
+    const boldness = storage.get()?.additionalBoldness ?? DEFAULT_STORAGE.additionalBoldness;
+    boldIt(boldness);
 }
 
-function setupListener() {
+function setupMessageListener() {
     chrome.runtime.onMessage.addListener((request: ChangeMessage) => {
         if (request.message === 'change') {
             const isActive = request.value.on;
             void storage.set({ isActive, additionalBoldness: request.value.boldness });
-            if (isActive) {
-                boldItWithStoredBoldness();
-            } else {
-                unboldIt();
-            }
+            isActive ? boldItWithStoredBoldness() : unboldIt();
             return;
         }
 
@@ -108,5 +105,8 @@ async function init() {
     }
 }
 
-setupListener();
+setupMessageListener();
+['DOMContentLoaded', 'load'].forEach((event) => {
+    addEventListener(event, () => setTimeout(init, 1000)); // hack for late rerendering
+});
 void init();
