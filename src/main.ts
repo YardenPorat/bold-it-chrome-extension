@@ -7,23 +7,26 @@ const STORAGE_KEY = 'bold-it';
 
 const storage = new ChromeStorage<BoldItStorage>(STORAGE_KEY, DEFAULT_STORAGE);
 
-const SKIP_TAGS = new Set([
-    'SCRIPT',
-    'STYLE',
-    'VIDEO',
-    'AUDIO',
-    'CANVAS',
-    'IFRAME',
-    'IMG',
-    'BR',
-    'HR',
-    'COL',
-    'EMBED',
-    'svg',
-    'g',
-    'path',
-    'use',
-]);
+const SKIP_TAGS = new Set(
+    [
+        'BODY',
+        'SCRIPT',
+        'STYLE',
+        'VIDEO',
+        'AUDIO',
+        'CANVAS',
+        'IFRAME',
+        'IMG',
+        'BR',
+        'HR',
+        'COL',
+        'EMBED',
+        'svg',
+        'g',
+        'path',
+        'use',
+    ].map((tag) => tag.toLowerCase())
+);
 
 function getCurrentFontWeight(element: HTMLElement): number {
     if (element.dataset.originalWeight) {
@@ -44,8 +47,23 @@ function getCurrentFontWeight(element: HTMLElement): number {
     return 400;
 }
 
+function unboldIt() {
+    queryTextContainingElements().forEach((element) => {
+        const original = element.dataset.originalWeight;
+        if (original) {
+            element.style.fontWeight = original;
+            delete element.dataset.originalWeight;
+        }
+    });
+}
+
 function boldIt(additionalBoldness: number) {
+    // unbold everything first, to avoid inheriting boldness from parent elements which were bolded in previous runs
+    unboldIt();
+
+    // two step process to avoid inheriting boldness from parent elements
     const map = new Map();
+
     queryTextContainingElements().forEach((element) => {
         const original = getCurrentFontWeight(element);
         const newFontWeight = Math.min(original + additionalBoldness, 900);
@@ -56,16 +74,6 @@ function boldIt(additionalBoldness: number) {
     map.forEach(({ original, newFontWeight }, element) => {
         element.style.fontWeight = newFontWeight.toString();
         element.dataset.originalWeight = original.toString();
-    });
-}
-
-function unboldIt() {
-    queryTextContainingElements().forEach((element) => {
-        const original = element.dataset.originalWeight;
-        if (original) {
-            element.style.fontWeight = original;
-            delete element.dataset.originalWeight;
-        }
     });
 }
 
