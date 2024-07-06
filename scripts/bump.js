@@ -59,12 +59,8 @@ const bumpVersion = (filePath, versionType = 'patch') => {
     fileContent.version = newVersion;
 
     writeJsonFile(filePath, fileContent);
-    console.log(
-        `Bumped version in ${path.relative(
-            rootDir,
-            filePath
-        )} from ${currentVersion} to ${newVersion}`
-    );
+    const relativeFilePath = path.relative(rootDir, filePath);
+    console.log(`Bumped version in ${relativeFilePath} from ${currentVersion} to ${newVersion}`);
 };
 
 // Bump version in package.json
