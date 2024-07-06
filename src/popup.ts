@@ -9,10 +9,15 @@ document.addEventListener('DOMContentLoaded', async function () {
     const storage = new ChromeStorage<BoldItStorage>(STORAGE_KEY, DEFAULT_STORAGE);
 
     const powerButton = document.getElementById('power-button') as HTMLInputElement;
-    const additionalBoldnessSlider = document.getElementById('additional-boldness') as HTMLInputElement;
-    const additionalBoldnessLabel = document.querySelector('[for="additional-boldness"]') as HTMLLabelElement;
+    const additionalBoldnessSlider = document.getElementById(
+        'additional-boldness'
+    ) as HTMLInputElement;
+    const additionalBoldnessLabel = document.querySelector(
+        '[for="additional-boldness"]'
+    ) as HTMLLabelElement;
 
-    const setLabelValue = (value: number | string) => (additionalBoldnessLabel.textContent = `+ ${value}`);
+    const setLabelValue = (value: number | string) =>
+        (additionalBoldnessLabel.textContent = `+ ${value}`);
 
     const sendMessageToActiveTab = (message: ChangeMessage['value']) => {
         chrome.tabs.query({}, function (tabs) {
@@ -43,9 +48,15 @@ document.addEventListener('DOMContentLoaded', async function () {
     });
 
     await storage.initPromise;
-    const { additionalBoldness, isActive } = storage.get();
-    powerButton.checked = isActive;
-    const initialBoldness = additionalBoldness || DEFAULT_STORAGE.additionalBoldness;
-    additionalBoldnessSlider.value = initialBoldness.toString();
-    setLabelValue(initialBoldness);
+
+    function updateView() {
+        const { additionalBoldness, isActive } = storage.get();
+        powerButton.checked = isActive;
+        const initialBoldness = additionalBoldness || DEFAULT_STORAGE.additionalBoldness;
+        additionalBoldnessSlider.value = initialBoldness.toString();
+        setLabelValue(initialBoldness);
+    }
+
+    updateView();
+    document.addEventListener('focus', updateView);
 });

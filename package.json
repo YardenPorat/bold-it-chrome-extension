@@ -1,6 +1,6 @@
 {
   "name": "bold-it-chrome-extension",
-  "version": "1.0.3",
+  "version": "1.0.6",
   "description": "Hide promoted ads.\r Allows post filtering.",
   "main": "webpack.config.js",
   "scripts": {

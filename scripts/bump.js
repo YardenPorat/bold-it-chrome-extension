@@ -13,6 +13,8 @@ if (!['major', 'minor', 'patch'].includes(version)) {
     process.exit(1);
 }
 
+const rootDir = path.resolve(__dirname, '..');
+
 // Helper function to read JSON file
 const readJsonFile = (filePath) => {
     const rawData = fs.readFileSync(filePath);
@@ -57,7 +59,12 @@ const bumpVersion = (filePath, versionType = 'patch') => {
     fileContent.version = newVersion;
 
     writeJsonFile(filePath, fileContent);
-    console.log(`Bumped version in ${filePath} from ${currentVersion} to ${newVersion}`);
+    console.log(
+        `Bumped version in ${path.relative(
+            rootDir,
+            filePath
+        )} from ${currentVersion} to ${newVersion}`
+    );
 };
 
 // Bump version in package.json
