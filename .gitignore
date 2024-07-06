@@ -1,6 +1,4 @@
 node_modules
-_RESOURCES
 .vscode
 dist
-background*
 *.zip

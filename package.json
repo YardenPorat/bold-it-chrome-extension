@@ -4,11 +4,11 @@
   "description": "Hide promoted ads.\r Allows post filtering.",
   "main": "webpack.config.js",
   "scripts": {
-    "dev": "webpack -w",
-    "watch": "webpack -w",
+    "dev": "cross-env NODE_ENV=development webpack -w",
+    "watch": "cross-env NODE_ENV=development webpack -w",
     "prewatch": "npm run clean",
     "prebuild": "npm run clean",
-    "build": "webpack",
+    "build": "cross-env NODE_ENV=production webpack",
     "clean": "rimraf dist",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
@@ -17,6 +17,7 @@
   "devDependencies": {
     "@types/chrome": "^0.0.268",
     "copy-webpack-plugin": "^12.0.2",
+    "cross-env": "^7.0.3",
     "eslint": "^9.5.0",
     "eslint-config-prettier": "^9.1.0",
     "rimraf": "^5.0.7",

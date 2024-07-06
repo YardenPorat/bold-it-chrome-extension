@@ -52,7 +52,6 @@ function unboldIt() {
         const original = element.dataset.originalWeight;
         if (original) {
             element.style.fontWeight = original;
-            delete element.dataset.originalWeight;
         }
     });
 }
@@ -73,7 +72,9 @@ function boldIt(additionalBoldness: number) {
 
     map.forEach(({ original, newFontWeight }, element) => {
         element.style.fontWeight = newFontWeight.toString();
-        element.dataset.originalWeight = original.toString();
+        if (element.dataset.originalWeight === undefined) {
+            element.dataset.originalWeight = original.toString();
+        }
     });
 }
 
