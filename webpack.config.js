@@ -3,6 +3,9 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const isProd = process.env.NODE_ENV === 'production';
 const isDev = process.env.NODE_ENV === 'development';
 
+/**
+ * @type {import("webpack").Configuration}
+ */
 module.exports = {
     entry: { main: './src/main.ts', popup: './src/popup.ts', background: './src/background.ts' },
     output: {
