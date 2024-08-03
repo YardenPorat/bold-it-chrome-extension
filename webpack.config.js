@@ -1,7 +1,9 @@
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const ZipPlugin = require('zip-webpack-plugin');
 
 const isProd = process.env.NODE_ENV === 'production';
 const isDev = process.env.NODE_ENV === 'development';
+const { name: packageName, version } = require('./package.json');
 
 /**
  * @type {import("webpack").Configuration}
@@ -33,6 +35,10 @@ module.exports = {
     plugins: [
         new CopyWebpackPlugin({
             patterns: [{ from: 'static' }],
+        }),
+        new ZipPlugin({
+            path: __dirname,
+            filename: `${packageName}-${version}.zip`,
         }),
     ],
     devtool: isDev ? 'source-map' : undefined,
