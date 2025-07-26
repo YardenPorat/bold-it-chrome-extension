@@ -36,9 +36,9 @@
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/yardenporat/linkedin-plus/issues"
+    "url": "https://github.com/yardenporat/bold-it-chrome-extension/issues"
   },
-  "homepage": "https://github.com/yardenporat/linkedin-plus#readme",
+  "homepage": "https://github.com/yardenporat/bold-it-chrome-extension#readme",
   "volta": {
     "node": "20.9.0"
   }
