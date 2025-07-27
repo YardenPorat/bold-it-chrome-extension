@@ -9,7 +9,11 @@ const { name: packageName, version } = require('./package.json');
  * @type {import("webpack").Configuration}
  */
 module.exports = {
-    entry: { main: './src/main.ts', popup: './src/popup.ts', background: './src/background.ts' },
+    entry: {
+        content: './src/content.ts',
+        popup: './src/popup.ts',
+        background: './src/background.ts',
+    },
     output: {
         filename: '[name].js',
     },

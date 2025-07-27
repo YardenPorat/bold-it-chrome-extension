@@ -1,9 +1,11 @@
 export class ChromeStorage<T> {
     private storage!: T;
+    private defaultStorage!: T;
     public initPromise!: Promise<void>;
 
     constructor(public key: string, defaultStorage: T) {
         this.key = key;
+        this.defaultStorage = defaultStorage;
 
         this.initPromise = this.readFromStorage<T>().then((storage) => {
             if (!storage) {
@@ -16,7 +18,7 @@ export class ChromeStorage<T> {
     }
 
     public get(): T {
-        return this.storage;
+        return { ...this.defaultStorage, ...this.storage };
     }
 
     public async set(data: Partial<T>): Promise<void> {

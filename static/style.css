@@ -8,7 +8,7 @@ body {
 }
 
 .modal-header {
-  padding: var(--padding) var(--padding) 0 var(--padding);
+  padding: calc(var(--padding) / 2) var(--padding) 0 var(--padding);
   display: flex;
   align-items: center;
   gap: 10px;
@@ -21,11 +21,25 @@ body {
   justify-content: center;
   gap: 10px;
 
-  .toggle {
-    margin: 0 auto;
+  .group {
+    .specific-control,
+    .general-control {
+      display: flex;
+      align-items: center;
+
+      .toggle {
+        margin: 0 auto;
+      }
+
+      h5 {
+        flex: 1;
+        margin: 0;
+      }
+    }
   }
 
-  .slider-wrapper {
+  .general-slider-container,
+  .domain-slider-container {
     display: flex;
     justify-content: center;
   }
@@ -33,6 +47,7 @@ body {
 
 .modal-icons {
   border-top: 0.5px solid #dadada;
+  border-bottom: 0.5px solid #dadada;
   display: flex;
   align-items: center;
   padding: var(--padding) 0;
@@ -53,5 +68,20 @@ body {
       font-size: 40px;
       color: #2f5876;
     }
+  }
+}
+
+.coffee {
+  color: #4285f4;
+  text-decoration: none;
+  text-align: center;
+  width: 100%;
+  display: block;
+  padding: 5px;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    background-color: #4285f4;
+    color: white;
   }
 }

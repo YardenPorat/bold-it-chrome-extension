@@ -1,9 +1,10 @@
-import { DEFAULT_STORAGE } from './constants';
-import { BoldItStorage, ChangeMessage } from './types';
+import { DEFAULT_STORAGE, DOMAIN_SPECIFIC_CHANGE_EVENT } from './constants';
+import { BoldItStorage, ChangeMessage, SpecificDomainChangeMessage } from './types';
 import { ChromeStorage } from './utils/chrome-storage';
 import { log } from './utils/logger';
 
 const STORAGE_KEY = 'bold-it';
+const currentDomain = new URL(window.location.href).hostname;
 
 const storage = new ChromeStorage<BoldItStorage>(STORAGE_KEY, DEFAULT_STORAGE);
 
@@ -84,17 +85,46 @@ function queryTextContainingElements() {
     );
 }
 
-function boldItWithStoredBoldness() {
-    const boldness = storage.get()?.additionalBoldness ?? DEFAULT_STORAGE.additionalBoldness;
+function boldItWithStoredBoldness(data?: BoldItStorage) {
+    const store = data ?? storage.get();
+    const boldness =
+        store.specificDomains[currentDomain] ??
+        store.additionalBoldness ??
+        DEFAULT_STORAGE.additionalBoldness;
     boldIt(boldness);
 }
 
 function setupMessageListener() {
-    chrome.runtime.onMessage.addListener((request: ChangeMessage) => {
+    chrome.runtime.onMessage.addListener(async (request: ChangeMessage) => {
+        const initialStoreData = storage.get();
+        const hasDomainBoldness = !!initialStoreData.specificDomains[currentDomain];
+
         if (request.message === 'change') {
-            const isActive = request.value.on;
+            const isActive = (request as ChangeMessage).value.on;
             void storage.set({ isActive, additionalBoldness: request.value.boldness });
-            isActive ? boldItWithStoredBoldness() : unboldIt();
+            if (!hasDomainBoldness) {
+                isActive ? boldItWithStoredBoldness() : unboldIt();
+            }
+            return;
+        }
+
+        if (request.message === DOMAIN_SPECIFIC_CHANGE_EVENT) {
+            const { boldness, domain, on } = (request as unknown as SpecificDomainChangeMessage)
+                .value;
+
+            if (!on) {
+                const specificDomains = initialStoreData.specificDomains;
+                delete specificDomains[domain];
+                await storage.set({ specificDomains });
+                unboldIt();
+                init();
+                return;
+            }
+
+            await storage.set({
+                specificDomains: { ...initialStoreData.specificDomains, [domain]: boldness },
+            });
+            boldItWithStoredBoldness();
             return;
         }
 
@@ -109,8 +139,11 @@ function setupMessageListener() {
 
 async function init() {
     await storage.initPromise;
-    if (storage.get().isActive) {
-        boldItWithStoredBoldness();
+
+    const data = storage.get();
+    const specificDomainBoldness = data.specificDomains[currentDomain];
+    if (data.isActive || specificDomainBoldness) {
+        boldItWithStoredBoldness(data);
     }
 }
 

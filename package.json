@@ -1,6 +1,6 @@
 {
   "name": "bold-it-chrome-extension",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Control the boldness of the text in your browser",
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack -w",

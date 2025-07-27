@@ -29,22 +29,46 @@
       <h1 class="logo">Bold It</h1>
     </div>
     <div class="modal-content">
-      <div class="toggle r">
-        <input id="power-button" type="checkbox" class="checkbox" checked="false" />
-        <div class="knobs"></div>
-        <div class="layer"></div>
+      <div class="group">
+        <div class="general-control">
+          <h5>General font-weight</h5>
+          <div class="toggle r">
+            <input id="power-button" type="checkbox" class="checkbox" checked="false" />
+            <div class="knobs"></div>
+            <div class="layer"></div>
+          </div>
+        </div>
+        <div class="general-slider-container">
+          <input
+            type="range"
+            step="100"
+            max="800"
+            min="100"
+            name="additional-boldness"
+            id="general-slider"
+          /><label for="general-slider"></label>
+        </div>
       </div>
-      <div class="slider-wrapper">
-        <input
-          type="range"
-          step="100"
-          max="800"
-          min="100"
-          name="additional-boldness"
-          id="additional-boldness"
-        /><label for="additional-boldness"></label>
+      <div class="group">
+        <div class="specific-control">
+          <h5>Specific control for this site</h5>
+          <div class="toggle r">
+            <input id="specific-domain-button" type="checkbox" class="checkbox" checked="false" />
+            <div class="knobs"></div>
+            <div class="layer"></div>
+          </div>
+        </div>
+        <div class="domain-slider-container">
+          <input
+            type="range"
+            step="100"
+            max="800"
+            min="100"
+            name="additional-boldness"
+            id="domain-slider-input"
+          /><label for="domain-slider-input"></label>
+        </div>
       </div>
-      <br />
     </div>
     <div class="modal-icons">
       <div class="icon">
@@ -63,5 +87,8 @@
         </a>
       </div>
     </div>
+    <a class="coffee" href="https://buymeacoffee.com/yardenporat" target="_blank" rel="noreferrer">
+      Buy me a coffee ☕
+    </a>
   </body>
 </html>
