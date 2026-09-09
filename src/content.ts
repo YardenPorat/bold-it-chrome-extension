@@ -1,3 +1,4 @@
+import { MAX_FONT_WEIGHT, parseFontWeight, resolveBoldness } from './boldness';
 import { DEFAULT_STORAGE, DOMAIN_SPECIFIC_CHANGE_EVENT } from './constants';
 import { BoldItStorage, ChangeMessage, SpecificDomainChangeMessage } from './types';
 import { ChromeStorage } from './utils/chrome-storage';
@@ -34,18 +35,7 @@ function getCurrentFontWeight(element: HTMLElement): number {
         return parseInt(element.dataset.originalWeight);
     }
 
-    const currentFontWeight = window.getComputedStyle(element).fontWeight;
-
-    // Check if font-weight is a number (some fonts use keywords like 'normal', 'bold')
-    if (!isNaN(Number(currentFontWeight))) {
-        return parseInt(currentFontWeight);
-    }
-
-    if (currentFontWeight === 'bold') {
-        return 700;
-    }
-
-    return 400;
+    return parseFontWeight(window.getComputedStyle(element).fontWeight);
 }
 
 function unboldIt() {
@@ -66,7 +56,7 @@ function boldIt(additionalBoldness: number) {
 
     queryTextContainingElements().forEach((element) => {
         const original = getCurrentFontWeight(element);
-        const newFontWeight = Math.min(original + additionalBoldness, 900);
+        const newFontWeight = Math.min(original + additionalBoldness, MAX_FONT_WEIGHT);
 
         map.set(element, { original, newFontWeight });
     });
@@ -87,11 +77,7 @@ function queryTextContainingElements() {
 
 function boldItWithStoredBoldness(data?: BoldItStorage) {
     const store = data ?? storage.get();
-    const boldness =
-        store.specificDomains[currentDomain] ??
-        store.additionalBoldness ??
-        DEFAULT_STORAGE.additionalBoldness;
-    boldIt(boldness);
+    boldIt(resolveBoldness(store, currentDomain));
 }
 
 function setupMessageListener() {
